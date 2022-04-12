@@ -1,0 +1,92 @@
+# Disable etcd monitoring. See https://github.com/cablespaghetti/k3s-monitoring/issues/4
+kubeEtcd:
+  enabled: false
+
+# Disable kube-controller-manager and kube-scheduler monitoring. See https://github.com/cablespaghetti/k3s-monitoring/issues/2
+kubeControllerManager:
+  enabled: false
+kubeScheduler:
+  enabled: false
+
+prometheus:
+  prometheusSpec:
+    retention: 3d
+
+#    replicas: 2
+#    podAntiAffinity: "hard"
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+
+#    resources:
+#      limits:
+#        cpu: "2"
+#        memory: 5Gi
+#      requests:
+#        cpu: 100m
+#        memory: 4Gi
+#    priorityClassName: high-priority
+#
+#  service:
+#    sessionAffinity: "ClientIP"
+#
+
+grafana:
+  plugins:
+    - grafana-piechart-panel
+#  resources:
+#    limits:
+#      cpu: 500m
+#      memory: 128Mi
+#    requests:
+#      cpu: 25m
+#      memory: 64Mi
+#
+#  sidecar:
+#    resources:
+#      limits:
+#        cpu: 100m
+#        memory: 128Mi
+#      requests:
+#        cpu: 5m
+#        memory: 64Mi
+
+#prometheusOperator:
+#  resources:
+#    limits:
+#      cpu: 1
+#      memory: 512Mi
+#    requests:
+#      cpu: 50m
+#      memory: 128Mi
+#  priorityClassName: high-priority
+
+#prometheus-node-exporter:
+#  resources:
+#    limits:
+#      cpu: 50m
+#      memory: 50Mi
+#    requests:
+#      cpu: 5m
+#      memory: 16Mi
+#  priorityClassName: high-priority
+
+kube-state-metrics:
+#  resources:
+#    limits:
+#      cpu: 1
+#      memory: 512Mi
+#    requests:
+#      cpu: 5m
+#      memory: 128Mi
+#  priorityClassName: high-priority
+
+# Use an unofficial multi-arch image until kube-state-metrics v2 is stable
+  image:
+    repository: eddiezane/kube-state-metrics
+    tag: v1.9.7
+
